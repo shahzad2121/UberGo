@@ -18,4 +18,4 @@ app.get("/", (req, res) => {
   res.send("You are good to go");
 });
 
-module.exports = app;
+module.exports = { app };

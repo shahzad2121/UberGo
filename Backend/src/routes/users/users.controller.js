@@ -1,7 +1,10 @@
 const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+
 
 const { createNewUser } = require("../../models/user/user.model");
 const userModel = require("../../models/user/user.mongo");
+const blackListModel = require("../../models/blacklistToken.model");
 
 async function httpCreateNewUser(req, res) {
   const errors = validationResult(req);
@@ -44,11 +47,25 @@ async function httpLoginUser(req, res) {
     return res.status(400).json("Invalid email or password");
   }
 
-
   const token = await user.generateAuthToken();
 
   res.cookie("token", token);
   res.status(200).json({ token, user });
 }
+async function httpGetProfile(req, res) {
+  return res.status(200).json(req.user);
+}
+async function httpLogOutUser(req, res) {
+  res.clearCookie("token");
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
 
-module.exports = { httpCreateNewUser, httpLoginUser };
+  await blackListModel.create({ token });
+  res.status(200).json({ message: "Logged Out Successfully" });
+}
+
+module.exports = {
+  httpCreateNewUser,
+  httpLoginUser,
+  httpGetProfile,
+  httpLogOutUser,
+};

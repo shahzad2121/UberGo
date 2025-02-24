@@ -1,6 +1,4 @@
 const { validationResult } = require("express-validator");
-const jwt = require("jsonwebtoken");
-
 
 const { createNewUser } = require("../../models/user/user.model");
 const userModel = require("../../models/user/user.mongo");
@@ -60,7 +58,7 @@ async function httpLogOutUser(req, res) {
   const token = req.cookies.token || req.headers.authorization.split(" ")[1];
 
   await blackListModel.create({ token });
-  res.status(200).json({ message: "Logged Out Successfully" });
+  return res.status(200).json({ message: "Logged Out Successfully" });
 }
 
 module.exports = {

@@ -1,16 +1,29 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
+import axios from "axios";
+import { userDataContext } from "../../context/UserContext";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const [user, setUser] = useContext(userDataContext);
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({ email, password });
-    console.log(userData);
+    const existUser = { email, password };
+    const response = await axios.post(
+      "http://localhost:8000/v1/users/login",
+      existUser
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    }
 
     setEmail("");
     setPassword("");
@@ -20,10 +33,11 @@ const UserLogin = () => {
     <div className="w-screen h-screen flex flex-col justify-between pt-8 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-        <Link to='/'>
-          <FaArrowLeft />
-        </Link>
-        <span className="font-semibold text-2xl">User Login</span></div>
+          <Link to="/">
+            <FaArrowLeft />
+          </Link>
+          <span className="font-semibold text-2xl">User Login</span>
+        </div>
         <form
           onSubmit={(e) => {
             submitHandler(e);

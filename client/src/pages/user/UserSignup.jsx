@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import { userDataContext } from "../../context/UserContext";
+import axios from "axios";
 
 const UserSignup = () => {
   const navigate = useNavigate();
@@ -8,16 +10,39 @@ const UserSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const [user, setUser] = useContext(userDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({ email, password, name });
-    console.log(userData);
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    const response = await axios.post(
+      `http://localhost:8000/v1/users/register`,
+      newUser,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (response.status === 201) {
+      console.log(response.data);
+
+      const data = response.data;
+      console.log(data.token);
+
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    }
 
     setEmail("");
-    setPassword("");
     setName("");
+    setPassword("");
   };
 
   return (
@@ -70,16 +95,16 @@ const UserSignup = () => {
             className="py-2 bg-zinc-300 rounded-md px-4 outline-none"
           />
           <button
-            onClick={() => {
-              navigate("/home");
-            }}
+            // onClick={() => {
+            //   navigate("/home");
+            // }}
             className="bg-black mt-5 text-white py-2 rounded-md"
           >
             Sign-up
           </button>
         </form>
         <p className="flex items-center mt-1 gap-1 justify-center text-sm">
-          Already have an Account
+          Already have an Account?
           <Link to="/user-login" className="text-blue-700">
             Login here
           </Link>

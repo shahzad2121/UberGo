@@ -15,4 +15,4 @@ const blacklistTokenSchema = new mongoose.Schema({
 
 const blackListModel = mongoose.model("blacklisttoken", blacklistTokenSchema);
 
-module.exports = blackListModel ;
+module.exports =  blackListModel ;

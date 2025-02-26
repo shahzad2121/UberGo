@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
+import { captainDataContext } from "../../context/CaptainContext";
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const [captain, setCaptain] = useContext(captainDataContext)
+  const navigate = useNavigate()
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -20,7 +23,9 @@ const CaptainLogin = () => {
     <div className="w-screen h-screen flex flex-col justify-between pt-8 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-          <Link to="/">
+          <Link onClick={() => {
+            navigate(-1)
+          }}>
             <FaArrowLeft />
           </Link>
           <span className="font-semibold text-2xl">Captain Login</span>

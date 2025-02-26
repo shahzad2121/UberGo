@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { captainDataContext } from "../../context/CaptainContext";
+import axios from "axios";
 
 const CaptainSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [vehicleColor, setVehicleColor] = useState();
-  const [vehicleType, setVehicleType] = useState();
-  const [vehiclePlate, setVehiclePlate] = useState();
-  const [vehicleCapacity, setVehicleCapacity] = useState();
-  const [captainData, setCaptainData] = useState({});
-
-  const submitHandler = (e) => {
+  const [vehicleColor, setVehicleColor] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+  const [vehiclePlate, setVehiclePlate] = useState("");
+  const [vehicleCapacity, setVehicleCapacity] = useState("");
+  const [captain, setCaptain] = useContext(captainDataContext);
+  const navigate = useNavigate();
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setCaptainData({
+    const newCaptain = {
       email: email,
       password: password,
       name: name,
@@ -22,28 +24,47 @@ const CaptainSignup = () => {
         capacity: vehicleCapacity,
         color: vehicleColor,
         plate: vehiclePlate,
-        type: vehicleType,
+        vehicleType: vehicleType,
       },
-    });
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/v1/captains/register",
+        newCaptain,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-    setEmail("");
-    setPassword("");
-    setName("");
-    setVehicleColor("");
-    setVehicleType("");
-    setVehiclePlate("");
-    setVehicleCapacity("");
+      if (response.status === 200) {
+        const data = response.data;
+        setCaptain(data.captain);
+        // const token = data.token;
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
+      }
+
+      setEmail("");
+      setPassword("");
+      setName("");
+      setVehicleColor("");
+      setVehicleType("");
+      setVehiclePlate("");
+      setVehicleCapacity("");
+    } catch (error) {
+      console.error("Error:", error.response ? error.response.data : error);
+    }
   };
-
-  useEffect(() => {
-    console.log(captainData);
-  }, [captainData]);
 
   return (
     <div className="w-screen h-screen flex flex-col justify-between pt-5 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-          <Link to="/">
+          <Link
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
             <FaArrowLeft />
           </Link>
           <span className="font-semibold text-2xl">Captain Sign-up</span>
@@ -100,9 +121,9 @@ const CaptainSignup = () => {
             <option value="" disabled>
               set vehicle type
             </option>
-            <option value="car">car</option>
-            <option value="auto">auto</option>
-            <option value="bike">bike</option>
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+            <option value="auto">Auto</option>
           </select>
           <span className="mb-1 text-sm">Vehicle Capacity</span>
           <input
@@ -111,7 +132,7 @@ const CaptainSignup = () => {
             onChange={(e) => {
               setVehicleCapacity(e.target.value);
             }}
-            type="password"
+            type="number"
             placeholder="enter your vehicle capacity"
             className="py-2 text-sm bg-zinc-300 rounded-md px-4 outline-none mb-2"
           />
@@ -143,11 +164,11 @@ const CaptainSignup = () => {
           </button>
         </form>
         <p className="flex items-center mt-1 gap-1 justify-center text-sm">
-                  Already have an Account?
-                  <Link to="/captain-login" className="text-blue-700">
-                    Login here
-                  </Link>
-                </p>
+          Already have an Account?
+          <Link to="/captain-login" className="text-blue-700">
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const userSchema = new mongoose.Schema(
   {
-    firstname: {
+    name: {
       type: String,
       required: true,
       minlength: [3, "name should be of 3 character"],
@@ -45,4 +45,4 @@ userSchema.statics.hashPassword = async function (password) {
 
 const userModel = mongoose.model("user", userSchema);
 
-module.exports = userModel;
+module.exports = { userModel };

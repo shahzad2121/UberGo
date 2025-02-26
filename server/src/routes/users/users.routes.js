@@ -17,7 +17,7 @@ usersRouter.post(
   "/register",
   [
     body("email").isEmail().withMessage("Invalid Email"),
-    body("firstname")
+    body("name")
       .isLength({ min: 3 })
       .withMessage("Name should be contain 3 characters atleast"),
     body("password")

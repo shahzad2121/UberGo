@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import UserLogOut from "./UserLogOut";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <UserLogOut />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

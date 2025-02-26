@@ -7,7 +7,6 @@ import { userDataContext } from "../../context/UserContext";
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
   const [user, setUser] = useContext(userDataContext);
   const navigate = useNavigate();
 
@@ -22,7 +21,7 @@ const UserLogin = () => {
       const data = response.data;
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+      navigate("/user/home");
     }
 
     setEmail("");
@@ -33,7 +32,9 @@ const UserLogin = () => {
     <div className="w-screen h-screen flex flex-col justify-between pt-8 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-          <Link to="/">
+          <Link onClick={() => {
+            navigate(-1)
+          }}>
             <FaArrowLeft />
           </Link>
           <span className="font-semibold text-2xl">User Login</span>
@@ -73,7 +74,7 @@ const UserLogin = () => {
         </form>
         <p className="flex items-center mt-3 gap-1 justify-center text-sm">
           New here?
-          <Link to="/user-signup" className="text-blue-700">
+          <Link to="/user/signup" className="text-blue-700">
             Create new account
           </Link>
         </p>

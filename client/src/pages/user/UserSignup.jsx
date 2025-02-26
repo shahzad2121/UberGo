@@ -37,7 +37,7 @@ const UserSignup = () => {
 
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+      navigate("/user/home");
     }
 
     setEmail("");
@@ -49,7 +49,9 @@ const UserSignup = () => {
     <div className="w-screen h-screen flex flex-col justify-between pt-8 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-          <Link to="/">
+          <Link onClick={()=>{
+            navigate(-1)
+          }}>
             <FaArrowLeft />
           </Link>
           <span className="font-semibold text-2xl">User Sign-up</span>
@@ -95,9 +97,6 @@ const UserSignup = () => {
             className="py-2 bg-zinc-300 rounded-md px-4 outline-none"
           />
           <button
-            // onClick={() => {
-            //   navigate("/home");
-            // }}
             className="bg-black mt-5 text-white py-2 rounded-md"
           >
             Sign-up
@@ -105,7 +104,7 @@ const UserSignup = () => {
         </form>
         <p className="flex items-center mt-1 gap-1 justify-center text-sm">
           Already have an Account?
-          <Link to="/user-login" className="text-blue-700">
+          <Link to="/user/login" className="text-blue-700">
             Login here
           </Link>
         </p>

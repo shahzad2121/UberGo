@@ -14,7 +14,7 @@ const captainRouter = express.Router();
 captainRouter.post(
   "/register",
   [
-    body("firstname")
+    body("name")
       .isLength({ min: 3 })
       .withMessage("length must be atleast 3 characters"),
     body("email").isEmail().withMessage("Email Required"),
@@ -31,7 +31,7 @@ captainRouter.post(
       .isInt({ min: 1 })
       .withMessage("Capacity must be at least 1"),
     body("vehicle.vehicleType")
-      .isIn(["car", "motorcycle", "auto"])
+      .isIn(["car", "bike", "auto"])
       .withMessage("Invalid vehicle type"),
   ],
   httpRegisterCaptain

@@ -9,10 +9,12 @@ async function createNewCaptain(captain) {
     const newCaptain = captainModel.create({
       firstname,
       email,
-      color,
-      capacity,
-      plate,
-      vehicleType,
+      vehicle: {
+        color,
+        capacity,
+        plate,
+        vehicleType,
+      },
       password: hashedPassword,
     });
     return newCaptain;

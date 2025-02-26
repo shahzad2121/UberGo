@@ -1,8 +1,6 @@
 const { validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
 
-const { createNewCaptain } = require("../../models/captain/captain.model");
-const captainModel = require("../../models/captain/captain.mongo");
+const { captainModel } = require("../../models/captain/captain.mongo");
 const blackListModel = require("../../models/blacklistToken.model");
 
 async function httpRegisterCaptain(req, res) {
@@ -13,29 +11,34 @@ async function httpRegisterCaptain(req, res) {
   }
 
   try {
-    const captain = req.body;
+    const { name, email, password, vehicle } = req.body;
 
-    if (
-      !captain.email ||
-      !captain.firstname ||
-      !captain.password ||
-      !captain.color ||
-      !captain.capacity ||
-      !captain.plate ||
-      !captain.vehicleType
-    ) {
+    if (!name || !email || !password || !vehicle || !vehicle.vehicleType) {
       res.status(401).json({ message: "Something is missing" });
     }
-    const { email } = captain;
     const findCaptain = await captainModel.findOne({ email });
     if (findCaptain) {
       return res.status(401).json({ message: "captain already exists" });
     }
+    const hashedPassword = await captainModel.hashPassword(password);
 
-    const newCaptain = await createNewCaptain(captain);
-    return res
-      .status(201)
-      .json({ message: "captain Registered Successfully", newCaptain });
+    const newCaptain = await captainModel.create({
+      name: name,
+      email: email,
+      password: hashedPassword,
+      vehicle: {
+        color: vehicle.color,
+        vehicleType: vehicle.vehicleType,
+        capacity: vehicle.capacity,
+        plate: vehicle.plate,
+      },
+    });
+    const token = await newCaptain.generateAuthToken();
+    return res.status(201).json({
+      message: "captain Registered Successfully",
+      captain: newCaptain,
+      token,
+    });
   } catch (error) {
     console.log("captain is not registered", error);
     return res.status(400).json({ error });

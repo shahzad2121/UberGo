@@ -39,9 +39,8 @@ const CaptainSignup = () => {
       if (response.status === 200) {
         const data = response.data;
         setCaptain(data.captain);
-        // const token = data.token;
         localStorage.setItem("token", data.token);
-        navigate("/captain-home");
+        navigate("/captain/home");
       }
 
       setEmail("");
@@ -165,7 +164,7 @@ const CaptainSignup = () => {
         </form>
         <p className="flex items-center mt-1 gap-1 justify-center text-sm">
           Already have an Account?
-          <Link to="/captain-login" className="text-blue-700">
+          <Link to="/captain/login" className="text-blue-700">
             Login here
           </Link>
         </p>

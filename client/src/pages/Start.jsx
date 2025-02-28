@@ -13,7 +13,7 @@ const Start = () => {
           Get started with Uber
         </h3>
         <Link
-          to="/user-login"
+          to="/user/login"
           className="bg-black mb-3 text-white rounded-md items-center justify-between pl-33 pr-5 flex py-2"
         >
           <span className="font-light text-base">As a User</span>
@@ -21,7 +21,7 @@ const Start = () => {
           <FaArrowRightLong />
         </Link>
         <Link
-          to="/captain-login"
+          to="/captain/login"
           className=" bg-zinc-600 text-white rounded-md items-center justify-between pl-33 pr-5 flex py-2"
         >
           <span className="font-light text-base">As a Captain</span>

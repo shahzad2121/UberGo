@@ -2,19 +2,27 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import { captainDataContext } from "../../context/CaptainContext";
+import axios from "axios";
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
-  const [captain, setCaptain] = useContext(captainDataContext)
-  const navigate = useNavigate()
+  const [captain, setCaptain] = useContext(captainDataContext);
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({ email, password });
-    console.log(userData);
-
+    const oldCaptain = { email, password };
+    const response = await axios.post(
+      "http://localhost:8000/v1/captains/login",
+      oldCaptain
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      setCaptain(data.captain);
+      localStorage.setItem("token", data.token);
+      navigate("/captain/home");
+    }
     setEmail("");
     setPassword("");
   };
@@ -23,9 +31,11 @@ const CaptainLogin = () => {
     <div className="w-screen h-screen flex flex-col justify-between pt-8 px-5">
       <div>
         <div className="flex items-center gap-3 mb-7 ">
-          <Link onClick={() => {
-            navigate(-1)
-          }}>
+          <Link
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
             <FaArrowLeft />
           </Link>
           <span className="font-semibold text-2xl">Captain Login</span>
@@ -65,7 +75,7 @@ const CaptainLogin = () => {
         </form>
         <p className="flex items-center mt-3 gap-1 justify-center text-sm">
           New here?
-          <Link to="/captain-signup" className="text-blue-700">
+          <Link to="/captain/signup" className="text-blue-700">
             Create new account
           </Link>
         </p>

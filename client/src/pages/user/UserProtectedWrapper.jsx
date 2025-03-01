@@ -9,7 +9,7 @@ const UserProtectedWrapper = ({ children }) => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/user-login");
+      navigate("/user/login");
     }
   }, [token]);
 

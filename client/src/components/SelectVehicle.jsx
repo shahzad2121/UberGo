@@ -17,7 +17,13 @@ const SelectVehicle = (props) => {
         <h2 className="text-2xl font-semibold mb-5">Choose your Ride</h2>
       </div>
 
-      <div className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3">
+      <div
+        onClick={() => {
+          props.setConfirmRidePanelOpen(true);
+          props.setVehiclePanelOpen(false)
+        }}
+        className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3"
+      >
         <img
           className="w-1/3"
           src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
@@ -34,7 +40,14 @@ const SelectVehicle = (props) => {
 
         <div className="text-sm font-semibold">124</div>
       </div>
-      <div className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3">
+      <div
+        onClick={() => {
+          props.setConfirmRidePanelOpen(true);
+          props.setVehiclePanelOpen(false)
+
+        }}
+        className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3"
+      >
         <img
           className="w-1/3"
           src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
@@ -51,7 +64,14 @@ const SelectVehicle = (props) => {
 
         <div className="text-sm font-semibold">124</div>
       </div>
-      <div className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3">
+      <div
+        onClick={() => {
+          props.setConfirmRidePanelOpen(true);
+          props.setVehiclePanelOpen(false)
+
+        }}
+        className="flex my-3 items-center py-3 border-2 border-zinc-300 active:border-zinc-900 rounded-lg px-3"
+      >
         <img
           className="w-1/3"
           src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"

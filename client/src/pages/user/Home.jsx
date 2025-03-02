@@ -4,6 +4,8 @@ import { useGSAP } from "@gsap/react";
 import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../../components/LocationSearchPanel";
 import SelectVehicle from "../../components/SelectVehicle";
+import ConfirmRide from "../../components/ConfirmRide";
+import SearchDriver from "../../components/SearchDriver";
 
 const Home = () => {
   const [pickup, handlePickupChange] = useState("");
@@ -11,14 +13,16 @@ const Home = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [activeField, setActiveField] = useState("");
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
+  const [confirmRidePanelOpen, setConfirmRidePanelOpen] = useState(false);
+  const [searchDriverPanelOpen, setSearchDriverPanelOpen] = useState(false)
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const vehiclePanelRef = useRef(null);
-  // const vehiclePanelCloseRef = useRef(null);
+  const confirmRidePanelRef = useRef(null);
+  const searchDriverPanelRef = useRef(null)
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     handleDestinationChange("");
     handlePickupChange("");
   };
@@ -62,6 +66,38 @@ const Home = () => {
     },
     [vehiclePanelOpen]
   );
+
+  useGSAP(
+    function () {
+      if (confirmRidePanelOpen) {
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [confirmRidePanelOpen]
+  );
+
+  useGSAP(
+    function () {
+      if (searchDriverPanelOpen) {
+        gsap.to(searchDriverPanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(searchDriverPanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [searchDriverPanelOpen]
+  );
+
+
   return (
     <div className="h-screen font-['satoshi] relative overflow-hidden">
       <img
@@ -79,7 +115,7 @@ const Home = () => {
         {/* <LiveTracking /> */}
       </div>
       <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
-        <div className="h-[30%] p-6 bg-white relative">
+        <div className="h-[30%] p-6 bg-white rounded-t-lg  relative">
           <h5
             ref={panelCloseRef}
             onClick={() => {
@@ -142,7 +178,29 @@ const Home = () => {
         ref={vehiclePanelRef}
         className="fixed z-10 bg-white bottom-0 translate-y-full w-full px-3  pt-4 rounded-t-lg"
       >
-       <SelectVehicle setVehiclePanelOpen={setVehiclePanelOpen} />
+        <SelectVehicle
+          setVehiclePanelOpen={setVehiclePanelOpen}
+          setConfirmRidePanelOpen={setConfirmRidePanelOpen}
+          setSearchDriverPanelOpen={setSearchDriverPanelOpen}
+        />
+      </div>
+      <div
+        ref={confirmRidePanelRef}
+        className="fixed z-10 bg-white bottom-0 translate-y-full h-auto w-full px-3  pt-4 rounded-t-lg"
+      >
+        <ConfirmRide
+          setVehiclePanelOpen={setVehiclePanelOpen}
+          setConfirmRidePanelOpen={setConfirmRidePanelOpen}
+        />
+      </div>
+      <div
+        ref={searchDriverPanelRef}
+        className="fixed z-10 bg-white bottom-0 translate-y-full h-auto w-full px-3  pt-4 rounded-t-lg"
+      >
+        <SearchDriver
+          setVehiclePanelOpen={setVehiclePanelOpen}
+          setConfirmRidePanelOpen={setConfirmRidePanelOpen}
+        />
       </div>
     </div>
   );

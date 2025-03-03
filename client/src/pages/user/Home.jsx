@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import "remixicon/fonts/remixicon.css";
-import LocationSearchPanel from "../../components/LocationSearchPanel";
-import SelectVehicle from "../../components/SelectVehicle";
-import ConfirmRide from "../../components/ConfirmRide";
-import SearchDriver from "../../components/SearchDriver";
+import LocationSearchPanel from "../../components/user/LocationSearchPanel";
+import SelectVehicle from "../../components/user/SelectVehicle";
+import ConfirmRide from "./ConfirmRide";
+import SearchDriver from "../../components/user/SearchDriver";
 
 const Home = () => {
   const [pickup, handlePickupChange] = useState("");
@@ -191,6 +191,7 @@ const Home = () => {
         <ConfirmRide
           setVehiclePanelOpen={setVehiclePanelOpen}
           setConfirmRidePanelOpen={setConfirmRidePanelOpen}
+          setSearchDriverPanelOpen={setSearchDriverPanelOpen}
         />
       </div>
       <div
@@ -200,6 +201,7 @@ const Home = () => {
         <SearchDriver
           setVehiclePanelOpen={setVehiclePanelOpen}
           setConfirmRidePanelOpen={setConfirmRidePanelOpen}
+          setSearchDriverPanelOpen={setSearchDriverPanelOpen}
         />
       </div>
     </div>

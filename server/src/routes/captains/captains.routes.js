@@ -9,9 +9,9 @@ const {
 } = require("./captains.controller");
 const { authenticateCaptain } = require("../../../middlewares/auth.middleware");
 
-const captainRouter = express.Router();
+const captainsRouter = express.Router();
 
-captainRouter.post(
+captainsRouter.post(
   "/register",
   [
     body("name")
@@ -36,7 +36,7 @@ captainRouter.post(
   ],
   httpRegisterCaptain
 );
-captainRouter.post(
+captainsRouter.post(
   "/login",
   [
     body("email").isEmail().withMessage(`email can't be empty`),
@@ -46,6 +46,6 @@ captainRouter.post(
   ],
   httpLoginCaptain
 );
-captainRouter.get("/profile", authenticateCaptain, httpGetProfile);
-captainRouter.get("/logout", authenticateCaptain, httpLogoutCaptain);
-module.exports = { captainRouter };
+captainsRouter.get("/profile", authenticateCaptain, httpGetProfile);
+captainsRouter.get("/logout", authenticateCaptain, httpLogoutCaptain);
+module.exports = { captainsRouter };

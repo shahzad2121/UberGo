@@ -14,7 +14,7 @@ ridesRouter.post(
   body("destination")
     .isString()
     .isLength({ min: 3 })
-    .withMessage({ message: "invalid destination" }),
+    .withMessage({ message: "destination is not reachable" }),
   authenticateUser,
   httpCreateRide
 );

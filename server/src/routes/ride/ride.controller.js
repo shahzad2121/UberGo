@@ -13,7 +13,7 @@ async function httpCreateRide(req, res) {
 
     return res.status(201).json(newRide);
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(400).json({error, status:"success"});
   }
 }
 

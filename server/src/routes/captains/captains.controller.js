@@ -35,6 +35,7 @@ async function httpRegisterCaptain(req, res) {
     });
     const token = await newCaptain.generateAuthToken();
     return res.status(201).json({
+success: true 
       message: "captain Registered Successfully",
       captain: newCaptain,
       token,

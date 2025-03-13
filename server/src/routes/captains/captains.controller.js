@@ -74,7 +74,7 @@ async function httpLogoutCaptain(req, res) {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   await blackListModel.create({ token });
-  return res.status(200).json({ message: "Captain Logged Out Successfully" });
+  return res.status(200).json({ message: "Captain Logged Out Successfully", success : true});
 }
 
 module.exports = {

@@ -32,7 +32,7 @@ async function httpCreateNewUser(req, res) {
 
     return res
       .status(201)
-      .json({ message: "user created successfully", newUser, token });
+      .json({ message: "user created successfully",success:true,    newUser, token });
   } catch (error) {
     console.error("error creating new user", error);
     return res.status(500).json({ error: "internal server error" });

@@ -45,10 +45,6 @@ async function getDistance(origin, destination) {
 
   try {
     const response = await axios.get(url);
-    console.log(
-      "Google Maps Distance Response:",
-      JSON.stringify(response.data, null, 2)
-    ); // Debugging
 
     if (response.data.status !== "OK") {
       throw new Error(`API error: ${response.data.status}`);
@@ -61,8 +57,8 @@ async function getDistance(origin, destination) {
     }
 
     return {
-      distance: elements.distance.text, // Example: "20 km"
-      duration: elements.duration.text, // Example: "15 mins"
+      distance: elements.distance.text, 
+      duration: elements.duration.text, 
     };
   } catch (error) {
     console.error("Distance API Request Error:", error);
@@ -71,8 +67,8 @@ async function getDistance(origin, destination) {
 }
 
 async function getSuggestions(input) {
-    console.log(input);
-    
+  console.log(input);
+
   if (!input) {
     throw new Error("input is required");
   }
